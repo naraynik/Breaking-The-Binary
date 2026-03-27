@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breaking the Binary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        stemViolet: '#2D0A59',
+                        stemPurple: '#7C3AED',
+                        stemWhite: '#FFFFFF',
+                        stemCharcoal: '#1F2937'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .slide-in {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Loader styles */
+        .spinner {
+            border: 3px solid rgba(124, 58, 237, 0.3);
+            border-radius: 50%;
+            border-top: 3px solid #7C3AED;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Markdown Styles for Chatbot */
+        .ada-markdown p {
+            margin-bottom: 0.5rem;
+        }
+
+        .ada-markdown p:last-child {
+            margin-bottom: 0;
+        }
+
+        .ada-markdown ul {
+            list-style-type: disc;
+            padding-left: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .ada-markdown ol {
+            list-style-type: decimal;
+            padding-left: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .ada-markdown li {
+            margin-bottom: 0.25rem;
+        }
+
+        .ada-markdown a {
+            color: #7C3AED;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+
+        .ada-markdown strong {
+            font-weight: 700;
+            color: #1F2937;
+        }
+
+        .ada-markdown h3,
+        .ada-markdown h4 {
+            font-weight: 700;
+            margin-top: 0.75rem;
+            margin-bottom: 0.25rem;
+            color: #1F2937;
+        }
+
+        .ada-user-message.ada-markdown strong {
+            color: white;
+        }
+
+        .ada-user-message.ada-markdown a {
+            color: #fdf2f8;
+        }
+
+        .ada-user-message.ada-markdown h3,
+        .ada-user-message.ada-markdown h4 {
+            color: white;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-gray-50 dark:bg-gray-900 text-stemCharcoal dark:text-gray-100 antialiased overflow-x-hidden min-h-screen flex flex-col transition-colors duration-300">
+
+    <!-- Navbar -->
+    <nav id="navbar"
+        class="hidden fixed top-0 w-full bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 px-6 py-4 z-40 flex items-center justify-between shadow-sm transition-colors duration-300">
+        <div class="flex items-center gap-2 text-stemViolet">
+            <i data-lucide="globe" class="w-6 h-6 text-stemPurple"></i>
+            <span class="text-xl font-bold tracking-tight">Breaking the Binary</span>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="#" onclick="showPage('homePage')"
+                class="nav-link flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all text-gray-500 hover:bg-gray-100 hover:text-stemViolet"
+                data-target="homePage">
+                <i data-lucide="home" class="w-4 h-4"></i><span class="hidden md:inline">Awareness</span>
+            </a>
+            <a href="#" onclick="showPage('discoveryPage')"
+                class="nav-link flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-stemViolet dark:hover:text-stemPurple"
+                data-target="discoveryPage">
+                <i data-lucide="rocket" class="w-4 h-4"></i><span class="hidden md:inline">Career Discovery</span>
+            </a>
+            <a href="#" onclick="showPage('collegesPage')"
+                class="nav-link flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-stemViolet dark:hover:text-stemPurple"
+                data-target="collegesPage">
+                <i data-lucide="graduation-cap" class="w-4 h-4"></i><span class="hidden md:inline">Colleges</span>
+            </a>
+            <a href="#" onclick="showPage('dashboardPage')"
+                class="nav-link flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-stemViolet dark:hover:text-stemPurple"
+                data-target="dashboardPage">
+                <i data-lucide="user-circle" class="w-4 h-4"></i><span class="hidden md:inline">Profile</span>
+            </a>
+
+            <button onclick="logout()"
+                class="text-sm font-medium text-gray-500 hover:text-red-500 transition-colors">Logout</button>
+        </div>
+    </nav>
+
+    <!-- App Container -->
+    <main id="app" class="flex-grow flex flex-col relative w-full h-full">
+        <!-- Pages will be injected/toggled here -->
+    </main>
+
+    <!-- Modular JS Files -->
+    <script src="js/firebase-config.js"></script>
+    <!-- Optional integrations -->
+    <script src="js/gemini-api.js?v=5"></script>
+    <script src="js/pages/login.js"></script>
+    <script src="js/pages/home.js"></script>
+    <script src="js/data/statistics.js"></script>
+    <script src="js/data/careers.js"></script>
+    <script src="js/data/colleges.js"></script>
+    <script src="js/pages/discovery.js"></script>
+    <script src="js/pages/colleges.js"></script>
+    <script src="js/pages/dashboard.js"></script>
+    <script src="js/components/chatWidget.js"></script>
+    <script src="js/components/onboarding.js"></script>
+    <script src="js/app.js"></script>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
